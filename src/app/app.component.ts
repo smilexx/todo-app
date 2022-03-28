@@ -7,4 +7,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'todo-app';
+  value = 50;
+
+  onSliderValueChange(value: number | null) {
+    this.value = value || 0;
+  }
 }
