@@ -18,12 +18,12 @@ export class UserService {
 
   init() {
     const user = this.getUser();
-    console.log(user);
     this.isAuthenticatedSubject.next(false);
-    // if (user) {
-    //   this.currentUserSubject.next(user);
-    //   this.isAuthenticatedSubject.next(true);
-    // }
+
+    if (user) {
+      this.currentUserSubject.next(user);
+      this.isAuthenticatedSubject.next(true);
+    }
   }
 
   getUser() {
@@ -31,14 +31,27 @@ export class UserService {
   }
 
   async signIn(email: string, password: string) {
-    const data = await this.apiService.client?.auth.signIn({email, password})
+    const { user, error } = (await this.apiService.client?.auth.signIn({ email, password })) || {};
 
-    console.log(data);
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    if (user) {
+      this.currentUserSubject.next(user);
+      this.isAuthenticatedSubject.next(true);
+    }
+
+    return user;
   }
 
   async signUp(email: string, password: string) {
-    const data = await this.apiService.client?.auth.signUp({email, password})
+    const data = await this.apiService.client?.auth.signUp({ email, password });
+  }
 
-    console.log(data);
+  async singOut() {
+    await this.apiService.client?.auth.signOut();
+    this.currentUserSubject.next({} as User);
+    this.isAuthenticatedSubject.next(false);
   }
 }

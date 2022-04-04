@@ -1,0 +1,26 @@
+.auth {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.authForm {
+  display: grid;
+}
+
+.actions {
+  margin-right: 0;
+  margin-left: 0;
+}
+
+.submit {
+  width: 100%;
+}
+
+.error {
+  display: grid;
+  justify-content: center;
+  width: 100%;
+  padding-bottom: 8px;
+}

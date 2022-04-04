@@ -1,5 +1,32 @@
-<mat-card>
-  <mat-card-title>
-    Auth
-  </mat-card-title>
-</mat-card>
+<div class="auth">
+  <mat-card>
+    <mat-card-content>
+      <form [formGroup]="authForm" (ngSubmit)="submitForm()" class="authForm">
+        <mat-form-field appearance="fill">
+          <mat-label>Email</mat-label>
+          <input matInput required formControlName="email">
+          <mat-error *ngIf="authForm.controls['email'].invalid">{{getErrorMessage('email')}}</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Password</mat-label>
+          <input matInput required formControlName="password" [type]="hidePassword ? 'password' : 'text'">
+          <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'"
+                  [attr.aria-pressed]="hidePassword">
+            <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+          <mat-error *ngIf="authForm.controls['password'].invalid">{{getErrorMessage('password')}}</mat-error>
+        </mat-form-field>
+      </form>
+    </mat-card-content>
+    <mat-card-actions>
+      <button class="submit" mat-raised-button color="primary" (click)="submitForm()" [disabled]="isSubmitting">
+        Sign in
+      </button>
+    </mat-card-actions>
+    <mat-card-footer>
+      <div class="error" *ngIf="error">{{error}}</div>
+      <mat-progress-bar mode="indeterminate" *ngIf="isSubmitting"></mat-progress-bar>
+    </mat-card-footer>
+  </mat-card>
+</div>
+
